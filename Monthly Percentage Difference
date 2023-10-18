@@ -1,0 +1,12 @@
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+sf_transactions.head()
+df = sf_transactions
+df['year-month'] = pd.to_datetime(df['created_at']).dt.strftime('%Y-%m')
+new_df = df.groupby('year-month').agg({'value':'sum'}).reset_index()
+new_df['previous_value'] = new_df['value'].shift(1)
+new_df['pct_change'] = (new_df['value'].diff()/new_df['previous_value'])*100
+new_df['pct_change'] = new_df['pct_change'].round(2)
+new_df[['year-month','pct_change']]
