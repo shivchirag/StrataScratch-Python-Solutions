@@ -1,0 +1,6 @@
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+df = fraud_score
+df.groupby('state').apply(lambda x: x[x['fraud_score']>=x['fraud_score'].quantile(0.95)])
