@@ -1,0 +1,16 @@
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+def condition(x):
+    if x==1:
+        return 'first_class'
+    elif x==2:
+        return 'second_class'
+    else:
+        return 'third_class'
+        
+df = titanic
+pivot_data = df.groupby(['pclass','survived']).agg({'survived':'count'}).rename(columns={'survived':'temp'}).reset_index()
+pivot_data.pclass = pivot_data.pclass.apply(condition)
+pivot_df = pivot_data.pivot_table(index='survived', columns='pclass', values='temp').reset_index()
