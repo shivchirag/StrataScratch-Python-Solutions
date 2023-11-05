@@ -1,0 +1,6 @@
+import pandas as pd
+
+# Start writing code
+df = pd.merge(airbnb_hosts, airbnb_units, how = 'right', on = 'host_id')
+df = df[(df['unit_type']=='Apartment') & (df['age']<30)]
+df.groupby('nationality').agg({'unit_id':pd.Series.nunique}).reset_index().rename(columns = {'unit_id':'apartment_count'})
