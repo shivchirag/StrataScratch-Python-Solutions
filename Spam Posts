@@ -1,0 +1,11 @@
+# Import your libraries
+import pandas as pd
+
+# Start writing code
+df = facebook_posts.merge(facebook_post_views, on='post_id')
+df['is_spam'] = df.post_keywords.apply(lambda x: x.find('spam'))
+df['is_spam'] = df.is_spam.apply(lambda x: 1 if x>=0 else 0)
+df = df.groupby(['post_date','post_id']).agg({'is_spam':'max'}).reset_index()
+df = df.groupby('post_date').agg({'is_spam':'sum', 'post_id':'count'}).reset_index()
+df['spam_share'] = (df['is_spam']/df['post_id'])*100
+df = df[['post_date','spam_share']]
